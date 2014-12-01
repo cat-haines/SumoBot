@@ -18,7 +18,7 @@ HttpSumoBot is a basic implementation of the SumoBot using a simple HTTPS interf
 - **GET /** - Test endpoint, should always return "200, OK"
 - **GET /state** - Returns the current values of the SumoBot's servos (between -1.0 and 1.0)
 - **GET /stop** - Sets the servos to (0,0) and returns the current values of the SumoBot's servos (should be 0,0)
-- **GET /set** - Sets the servos to the specified values. Values are specified with two query parameters - *left* and *right* (i.e. ``` /set?left=0.5&right=0.6```
+- **GET /set** - Sets the servos to the specified values. Values are specified with two query parameters - *left* and *right* (i.e. ``` /set?left=0.5&right=0.6```)
 - **POST /set** - You can also set the servos using a post request and JSON packet containing the required values:
     ``` { "left": 0.5, "right": 0.6 } ```
 
