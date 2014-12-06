@@ -2,6 +2,12 @@ SumoBot
 =======
 This repo is a collection of projects based around the [SumoBot Kit](http://sumobotkit.com/).
 
+Circuit
+=======
+It's super easy to hook your robot up to your imp. Here's how:
+
+![Circuit Diagram](/PowelBot.png)
+
 Files
 =====
 
