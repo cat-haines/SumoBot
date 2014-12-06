@@ -9,6 +9,9 @@ const API_SECRET = "";
 const AUTH_TOKEN = "";
 const TOKEN_SECRET = "";
 
+// hashtag we're tracking
+const HASHTAG = "#sumocontrol"
+
 class Twitter {
     // OAuth
     _consumerKey = null;
@@ -237,8 +240,8 @@ robotController <- {
     commands = {
         f = { left = 1, right = 1 },
         b = { left = -1, right = -1 },
-        r = { left = 1, right = -1 },
-        l = { left = -1, right = 1 },
+        r = { left = -1, right = 1 },
+        l = { left = 1, right = -1 },
         p = { left = 0, right = 0 }
     },
 
@@ -300,7 +303,7 @@ device.on("setServosResp", function(data) {
 });
 
 // onTweet Callback
-twitter.stream("#sumocontrol", function(tweetData) {
+twitter.stream(HASHTAG, function(tweetData) {
     local user = tweetData.user.screen_name;    // pull out the username
     local tweet = tweetData.text.tolower();     // pull out the tweet text
     
@@ -316,7 +319,7 @@ twitter.stream("#sumocontrol", function(tweetData) {
     
     foreach(part in parts) {
         // ignore the #sumocontrol part
-        if (part == "#sumocontrol") continue;
+        if (part == HASHTAG) continue;
         
         // if they asked for help, send help message and exit immediatly
         if (part == "help") {
@@ -371,8 +374,10 @@ http.onrequest(function(req, resp) {
                 <title>SumoBot Help Page</title>
             </head>
             <body>
+                <h1>Build your own TwitterSumoBot</h1>
+                <p>All the code required for this project can be found <a href='https://github.com/beardedinventor/SumoBot/tree/master/TwitterSumoBot'>here</a>!
                 <h1>Hash Tag</h1>
-                <p>Use <strong>#sumocontrol</strong> to indicate you are sending commands to a SumoBot.</p>
+                <p>Use <strong>" + HASHTAG + @"</strong> to indicate you are sending commands to a SumoBot.</p>
                 
                 <h1>Commands:</h1>
                 <p>Any of the commands can be chained together (with spaces between them) except 'help' and 'stop' - see the <strong>Examples</strong> section below for more information.</p>
@@ -386,6 +391,7 @@ http.onrequest(function(req, resp) {
                     <li><strong>P{seconds}</strong>: Stops the SumoBot for the specified period of time</li>
                 </ul>
                 <h1>Example:</h1>
+                <p>The following example uses the #sumocontrol hashtag.. make sure you use the above hashtag for your robot!</p>
                 <blockquote class='twitter-tweet' data-partner='tweetdeck'><p><a href='https://twitter.com/hashtag/sumocontrol?src=hash'>#sumocontrol</a> F5 L0.5 F2 P1 B5.0</p>&mdash; Matt Haines (@BeardedInventor) <a href='https://twitter.com/BeardedInventor/status/540282757272727553'>December 3, 2014</a></blockquote><script async src='//platform.twitter.com/widgets.js' charset='utf-8'></script>
                 <p>The above tweet will (in sequential order):
                     <ol>
