@@ -6,7 +6,7 @@ Circuit
 =======
 It's super easy to hook your robot up to your imp. Here's how:
 
-![Circuit Diagram](/PowelBot.png)
+![Circuit Diagram](./PawelBot.png)
 
 Files
 =====
