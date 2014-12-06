@@ -9,8 +9,9 @@ const API_SECRET = "";
 const AUTH_TOKEN = "";
 const TOKEN_SECRET = "";
 
+
 // hashtag we're tracking
-const HASHTAG = "#sumocontrol"
+const HASHTAG = "#jazctrl"
 
 class Twitter {
     // OAuth
@@ -238,10 +239,10 @@ robotModel <- {
 
 robotController <- {
     commands = {
-        f = { left = 1, right = 1 },
-        b = { left = -1, right = -1 },
-        r = { left = -1, right = 1 },
-        l = { left = 1, right = -1 },
+        r = { left = 1, right = 1 },
+        l = { left = -1, right = -1 },
+        f = { left = -1, right = 1 },
+        b = { left = 1, right = -1 },
         p = { left = 0, right = 0 }
     },
 
@@ -406,4 +407,3 @@ http.onrequest(function(req, resp) {
         </html>
     ");
 });
-
