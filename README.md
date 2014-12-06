@@ -22,6 +22,10 @@ HttpSumoBot is a basic implementation of the SumoBot using a simple HTTPS interf
 - **POST /set** - You can also set the servos using a post request and JSON packet containing the required values:
     ``` { "left": 0.5, "right": 0.6 } ```
 
+TwitterSumoBot
+--------------
+TwitterSumoBot is an implementation of SumoBot that uses the Twitter Streaming API. Tweet "#sumocontrol help" for more information!
+
 LICENSE
 =======
 This software is free and unencumbered and released into the public domain. More information can be found in the [LICENSE](LICENSE) file.
