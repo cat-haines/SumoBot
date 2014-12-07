@@ -9,7 +9,6 @@ const API_SECRET = "";
 const AUTH_TOKEN = "";
 const TOKEN_SECRET = "";
 
-
 // hashtag we're tracking
 const HASHTAG = "#jazctrl"
 
@@ -79,7 +78,7 @@ class Twitter {
      *   onError - callback function that executes whenever there is an error
      **************************************************************************/
     function stream(searchTerms, onTweet, onError = null) {
-        server.log("Opening stream for: " + searchTerms);
+		server.log("Opening stream for: " + searchTerms);
         // Set default error handler
         if (onError == null) onError = _defaultErrorHandler.bindenv(this);
         
@@ -233,6 +232,7 @@ robotModel <- {
     setModel = function(model) {
         if ("left" in model) robotModel.left = model.left;
         if ("right" in model) robotModel.right = model.right;
+        server.log("Set Model: " + robotModel.toString());
     }
 
 };
@@ -241,11 +241,11 @@ robotController <- {
     commands = {
         r = { left = 1, right = 1 },
         l = { left = -1, right = -1 },
-        f = { left = -1, right = 1 },
-        b = { left = 1, right = -1 },
+        f = { left = 1, right = -1 },
+        b = { left = -1, right = 1 },
         p = { left = 0, right = 0 }
     },
-
+    
     commandQueue = [],  // queue of upcoming commands
     lastId = null,    // the id to send a command
     timer = null,       // stores pointer to callback after command is done
@@ -303,8 +303,7 @@ device.on("setServosResp", function(data) {
     //replyToTweet(data.id, "Set #SumoBot's servos to " + robotModel.toString());
 });
 
-// onTweet Callback
-twitter.stream(HASHTAG, function(tweetData) {
+function parseTweet(tweetData) {
     local user = tweetData.user.screen_name;    // pull out the username
     local tweet = tweetData.text.tolower();     // pull out the tweet text
     
@@ -365,10 +364,24 @@ twitter.stream(HASHTAG, function(tweetData) {
         // execute the commands (push onto command stack)
         robotController.commands[cmd.c](cmd.u, cmd.t)
     }
-});
+}
+
+
+// onTweet Callback
+twitter.stream(HASHTAG, parseTweet);
 
 // HTTP Server to serve up help page
 http.onrequest(function(req, resp) {
+    if("cmd" in req.query) {
+        server.log(req.query.cmd);
+        parseTweet({
+            text = req.query.cmd,
+            user = { screen_name = "http" }
+        });
+        resp.send(200, "OK");
+        return;
+    } 
+
     resp.send(200, @"
         <html>
             <head>
@@ -407,3 +420,4 @@ http.onrequest(function(req, resp) {
         </html>
     ");
 });
+
